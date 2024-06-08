@@ -1,0 +1,165 @@
+<head>
+    <!-- the next three lines try to discourage browser from keeping page in cache -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="cache-control" content="no-store">
+
+    <title> COS426 Assignment 1 &mdash; Image Processing &mdash; Writeup</title>
+    <link href="css/style.css" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+    <script src="js/student.js"> </script>
+    <script src="coursejs/writeup.js"> </script>
+    <div class="main_div">
+
+        <h1> <div class=assignment>COS426 Assignment 1</div>Image Processing &mdash; Batch Mode</h1>
+        <h2>Switch to: <a href='index.html'>Interactive Editor</a></h2>
+        <div class='selectable'>
+        <h2 id='student'></h>
+        </ul></div>
+
+<p><hr><p><a  name='Minecraft painting generator filter'></a><h2>Minecraft Painting Filter</h2><p><hr><p>
+    A filter designed by me that takes an image and converts it into a pixelized version
+    similar to the creation of paintings in minecraft. Here is an example of one such conversion
+    <br> <a href='http://localhost:8000/batch.html?Push_Image=minecraft1.jpg&Gamma=0.5&Contrast=0.2&Pixel_Painting=0.999'>Push_Image=minecraft1.jpg&Pixel_Painting=0.999</a>
+    <div width="1500">
+        <img src='images/minecraft1.jpg'>
+        <img src='results/minecraft_mine.png'>
+    </div>
+
+<p><hr><p><a name='Brightness'></a><h2>Brightness</h2><p><hr><p>
+    <p>
+    Here is an example output where the image is made brigher with
+    <a href='batch.html?Push%20Image=flower.jpg&Brightness=0.3'>the
+    luminance slider set to 0.3</a>:
+    <p>
+    <img src='results/luminance0.3.png'>
+    <p>
+   
+<p><hr><p><a name='Contrast'></a><h2>Contrast</h2><p><hr><p>
+To apply contrast I looped through all the pixels in the image applying the given value formula to each RGB channel and then set the pixel to the new value.
+
+<a href='batch.html?Push_Image=leaves.jpg&Contrast=0.7'>Push_Image=leaves.jpg&Contrast=0.7</a>
+<br><img src='results/Contrast0.7.png'>
+
+<p><hr><p><a name='Gamma'></a><h2>Gamma</h2><p><hr><p>
+I applied the given gamma amount to each RGB channel of each pixel in the input image.
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Gamma=1'>Push_Image=mesa.jpg&Gamma=1</a>
+<br><img src='results/Gamma1.png'>
+
+<p><hr><p><a name='Vignette'></a><h2>Vignette</h2><p><hr><p>
+I applied vingette by calculating the current distance from the center of the image at each pixel. If this distance was greater than the outerR, the pixel RGB was set to (0,0,0). If the pixel distance was less than the innerR, the RGB was untouched. If it fell between the values the alpha amount was calculated in proportion to the distance from outerR and innerR.
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Vignette=0.25;1'>Push_Image=mesa.jpg&Vignette=0.25;1</a>
+<br><img src='results/Vignette0.25-1.png'>
+
+<p><hr><p><a name='Histogram+equalization'></a><h2>Histogram equalization</h2><p><hr><p>
+I found the luminance value for each pixel and added that to a hashmap where I could then calculate its occurances and balance the contrast of the image.
+
+<br> <a href='batch.html?Push_Image=flower.jpg&Histogram_Equalization='>Push_Image=flower.jpg&Histogram_Equalization=</a>
+<br><img src='results/Hist.png'>
+
+<p><hr><p><a name='Saturation'></a><h2>Saturation</h2><p><hr><p>
+I applied the ratio and luminance values to each pixel in the input image.
+
+<br> <a href='batch.html?Push_Image=leaves.jpg&Saturation=1'>Push_Image=leaves.jpg&Saturation=1</a>
+<br><img src='results/Saturation1.png'>
+
+<p><hr><p><a name='White+balance'></a><h2>White balance</h2><p><hr><p>
+I converted the image to the LMS color space and divided each channel by the value of the white color sent into the function. 
+
+<br> <a href='batch.html?Push_Image=town.jpg&White_Balance=[0.5,0.5,0.5,1]'>Push_Image=town.jpg&White_Balance=[0.5,0.5,0.5,1]</a>
+<br><img src='results/White0.5,0.5,0.5,1.png'>
+
+<p><hr><p><a name='Gaussian'></a><h2>Gaussian</h2><p><hr><p>
+I looped through the image and applied a 1D kernel generated using the formula given in the assignment description, I applied this to every RGB channel and kept track of the total amount for normalization. I then looped through the image again and did this in the y direction.
+
+<br> <a href='batch.html?Push_Image=leaves.jpg&Gaussian=4'>Push_Image=leaves.jpg&Gaussian=4</a>
+<br><img src='results/Gaussian4.png'>
+
+<p><hr><p><a name='Sharpen'></a><h2>Sharpen</h2><p><hr><p>
+I applied the given kernel to the image and returned the image.
+
+<br> <a href='batch.html?Push_Image=leaves.jpg&Sharpen='>Push_Image=leaves.jpg&Sharpen=</a>
+<br><img src='results/Sharpen.png'>
+
+<p><hr><p><a name='Edge+detect'></a><h2>Edge detect</h2><p><hr><p>
+Similar to the sharpen filter, I applied the kernel values to all pixels and returned.
+
+<br> <a href='batch.html?Push_Image=leaves.jpg&Edge='>Push_Image=leaves.jpg&Edge=</a>
+<br><img src='results/Edge.png'>
+
+<p><hr><p><a name='Median+filter'></a><h2>Median filter</h2><p><hr><p>
+For each pixel (x,y) I looped through the surrounding pixels (2winR x 2winR kernel), took the RGB of each pixel and pushed it onto an array that could later be sorted and divided in half to find the median value. This value was then set to the pixel.
+
+<br> <a href='batch.html?Push_Image=leaves.jpg&Median=3'>Push_Image=leaves.jpg&Median=3</a>
+<br><img src='results/Median3.png'>
+
+<p><hr><p><a name='Bilateral+filter'></a><h2>Bilateral filter</h2><p><hr><p>
+For each pixel (x,y) I looped through the respective window using the bilateral formula given to calculate the RGB values, normalized the result, and set the pixel equal to that in a new image.
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Bilateral=4;2'>Push_Image=mesa.jpg&Bilateral=4;2</a>
+<br><img src='results/Bilateral4-2.png'>
+
+<p><hr><p><a name='Random+dither'></a><h2>Random dither</h2><p><hr><p>
+I looped through every pixel, applied random noise to the grayscale image and then quantized.
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Random='>Push_Image=mesa.jpg&Random=</a>
+<br><img src='results/RandomDither.png'>
+
+<p><hr><p><a name='Floyd-Steinberg+dither'></a><h2>Floyd-Steinberg dither</h2><p><hr><p>
+I looped through each pixel and, using the given weights, applied the error amounts evenly to the following pixels.
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Floyd-Steinberg='>Push_Image=mesa.jpg&Floyd-Steinberg=</a>
+<br><img src='results/Floyd.png'>
+
+<p><hr><p><a name='Ordered+dither'></a><h2>Ordered dither</h2><p><hr><p>
+Using the pseudocode from precept, I created an array with the weight values of each pixel, calculated the error and threshold, and set the quantization of the pixel based on if the error was greater than or less than the threshold amount.
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Ordered='>Push_Image=mesa.jpg&Ordered=</a>
+<br><img src='results/Ordered.png'>
+
+<p><hr><p><a name='Sampling'></a><h2>Sampling</h2><p><hr><p>
+For bilinear, I use Math.floor() and Math.ceil() to get the 4 closest pixels to the given (x,y). I then applied the formula from precept that weights each pixel based on its proximety to the (x,y) coordinate.
+For gaussian, I applied the gaussian value as a 2D kernel normalizing after all pixels had been considered and added to the current pixel. 
+
+<p><hr><p><a name='Translate'></a><h2>Translate</h2><p><hr><p>
+Using the sampling function I moved each pixel to the new destination.
+
+<br> <a href='batch.html?Push_Image=flower.jpg&Translate=-317;-182;point'>Push_Image=flower.jpg&Translate=-317;-182;point</a>
+
+<br><img src='results/TranslateP.png'><br> <a href='batch.html?Push_Image=flower.jpg&Translate=-317;-182;bilinear'>Push_Image=flower.jpg&Translate=-317;-182;bilinear</a>
+
+<br><img src='results/TranslateB.png'><br> <a href='batch.html?Push_Image=flower.jpg&Translate=-317;-182;gaussian'>Push_Image=flower.jpg&Translate=-317;-182;gaussian</a>
+
+<br><img src='results/TranslateG.png'>
+
+<p><hr><p><a name='Scale'></a><h2>Scale</h2><p><hr><p>
+Using the sampling function I was able to scale up and down the image. At first I scaled the (x, y) coordinates themselves but found that this led to gapping when scaled up and instead applied the scale to the image size instead and divided by the ratio when sampling the original image. 
+
+<br> <a href='batch.html?Push_Image=mesa.jpg&Scale=2.03;point'>Push_Image=mesa.jpg&Scale=2.03;point</a>
+
+<br><img src='results/ScaleP.png'><br> <a href='batch.html?Push_Image=mesa.jpg&Scale=2.03;bilinear'>Push_Image=mesa.jpg&Scale=2.03;bilinear</a>
+
+<br><img src='results/ScaleB.png'><br> <a href='batch.html?Push_Image=mesa.jpg&Scale=2.03;gaussian'>Push_Image=mesa.jpg&Scale=2.03;gaussian</a>
+
+<br><img src='results/ScaleG.png'>
+
+<p><hr><p><a  name='Composite'></a><h2>Composite</h2><p><hr><p>
+Based on the alpha value of the top image, I calculated the combined RGB values for the background image.
+
+<br> <a href='batch.html?Push_Image=man.jpg&Push_Image=doge.jpg&Push_Image=alpha.png&Get_Alpha=&Composite='>Push_Image=man.jpg&Push_Image=doge.jpg&Push_Image=alpha.png&Get_Alpha=&Composite=</a>
+<br><img src='results/Composite.png'>
+
+<p><hr><p><a name='Morph'></a><h2>Morph</h2><p><hr><p>
+Using the precept slides I first gathered my initial morph lines and my final morph lines. I created an initial morph tranformation that went from initial --> halfway morphed and then a halfway --> final image morph. I then used my composite filter to animate between these results.
+
+<br> <a href='batch.html?Push_Image=trump1.jpg&Push_Image=trump2.jpg&Morph=(0,1,0.1)'>Push_Image=trump1.jpg&Push_Image=trump2.jpg&Morph=(0,1,0.1)</a>
+
+<br><img src='results/Trump.gif'><p><hr><p>
+
+    </div>
+</body>
+</html>
