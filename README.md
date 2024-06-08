@@ -4,7 +4,7 @@
 ![minecraft_mine](https://github.com/lauren-e-gardner/Image_Processor/assets/157167532/3707c359-72a1-4c1b-ba0e-e4a25283d053)
 
 
-This project was completed in 2022 for the course COS426: Computer Graphics @ Princeton University. The code implements a 2D image processor with a variety of filters and operations
+This project was completed in 2022 for the course COS426: Computer Graphics @ Princeton University. The code implements a 2D image processor with a variety of filters and operations. An additional filter call "Minecraft Painting" was added by me, this turns any image into a pixelized version similar to the paintings used in Minecraft.
 
 ## Description
 
